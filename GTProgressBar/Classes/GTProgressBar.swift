@@ -159,10 +159,16 @@ public class GTProgressBar: UIView {
     public var cornerRadius: CGFloat = 0.0 {
         didSet {
             self.layer.masksToBounds = cornerRadius != 0.0
-            self.layer.cornerRadius = cornerRadius
             self.setNeedsLayout()
         }
     }
+
+	@IBInspectable
+	public var barCornerRadius: CGFloat = 0.0 {
+		didSet {
+			self.setNeedsLayout()
+		}
+	}
     
     public var labelPosition: GTProgressBarLabelPosition = GTProgressBarLabelPosition.left {
         didSet {
@@ -333,10 +339,15 @@ public class GTProgressBar: UIView {
         if cornerType == .square {
             return 0.0
         }
-        
-        if cornerRadius != 0.0 {
-            return cornerRadius
-        }
+
+		switch view {
+		case backgroundView:
+			if cornerRadius != 0 { return cornerRadius }
+		case fillView:
+			if barCornerRadius != 0 { return barCornerRadius }
+		default:
+			fatalError("Setting corner radius isn't supported for this view")
+		}
         
         switch orientation {
         case .horizontal:
