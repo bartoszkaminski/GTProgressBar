@@ -266,6 +266,7 @@ public class GTProgressBar: UIView {
     public override func layoutSubviews() {
         updateProgressLabelText()
         updateViewsLocation()
+		super.layoutSubviews()
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
